@@ -18,8 +18,14 @@
   },
   "homepage": "https://github.com/ThatCrazyIrishGuy/youtube-search-stream#readme",
   "dependencies": {
+    "feedme": "^0.3.2",
+    "oppressor": "0.0.1",
+    "request": "^2.75.0",
     "restify": "^5.0.0-beta-1",
+    "restify-logger": "^2.0.1",
+    "simple-rss": "^1.0.0",
     "youtube-audio-stream": "0.0.26",
-    "youtube-search": "^1.0.6"
+    "youtube-search": "^1.0.6",
+    "yt-channel-videos": "^1.1.0"
   }
 }

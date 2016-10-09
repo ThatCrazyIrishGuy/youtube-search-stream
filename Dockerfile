@@ -1,6 +1,5 @@
-FROM node:argon
-
-RUN apt-get update && apt-get install libav-tools -y
+FROM mhart/alpine-node:4
+RUN apk update && apk add ffmpeg
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

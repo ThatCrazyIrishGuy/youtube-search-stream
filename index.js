@@ -21,6 +21,7 @@ server.get('/play/:searchString', function(req, res, next) {
         if (err) return res.send(err);
         var results = results[0];
         if (results.kind == 'youtube#video') {
+            console.log(results);
             youtubeStream(results.link).pipe(oppressor(req)).pipe(res);
         } else if(results.kind == 'youtube#channel') {
             var channelOpts = {};
@@ -28,8 +29,10 @@ server.get('/play/:searchString', function(req, res, next) {
             channelOpts.maxResults = opts.maxResults;
             channelOpts.channelId = results.channelId;
             channelOpts.order= 'date';
+            channelOpts.type = 'video';
             youtubeSearch('', channelOpts, function(err, results) {
                 if(err) return res.send(err);
+                console.log(results);
                 youtubeStream(results[0].link).pipe(oppressor(req)).pipe(res);
             });
         } else {

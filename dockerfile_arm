@@ -1,5 +1,6 @@
-FROM hypriot/rpi-node:4.7
-RUN apt-get update && apt-get install ffmpeg
+FROM easypi/alpine-arm
+RUN apk update && apk add ffmpeg
+RUN apk add nodejs
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

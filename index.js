@@ -1,7 +1,7 @@
 const restify = require('restify');
 const logger = require('restify-logger');
 const youtubeSearch = require('youtube-search');
-const youtubeStream = require('youtube-audio-stream');
+const ytdl = require('ytdl-core');
 const oppressor = require('oppressor');
 
 var server = restify.createServer();
@@ -22,7 +22,7 @@ server.get('/play/:searchString', function(req, res, next) {
         var results = results[0];
         if (results.kind == 'youtube#video') {
             console.log(results);
-            youtubeStream(results.link).pipe(oppressor(req)).pipe(res);
+            ytdl(results.link).pipe(oppressor(req)).pipe(res);
         } else if(results.kind == 'youtube#channel') {
             var channelOpts = {};
             channelOpts.key = opts.key;
@@ -33,7 +33,7 @@ server.get('/play/:searchString', function(req, res, next) {
             youtubeSearch('', channelOpts, function(err, results) {
                 if(err) return res.send(err);
                 console.log(results);
-                youtubeStream(results[0].link).pipe(oppressor(req)).pipe(res);
+                ytdl(results[0].link).pipe(oppressor(req)).pipe(res);
             });
         } else {
             res.send(501, {

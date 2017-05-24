@@ -44,6 +44,8 @@ server.get('/play/:searchString', function(req, res, next) {
     });
 });
 
+server.server.setTimeout(Number.MAX_VALUE);
+
 server.listen(9090, function() {
     console.log('%s listening at %s', server.name, server.url);
 });

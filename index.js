@@ -5,6 +5,7 @@ const ytdl = require('ytdl-core');
 const oppressor = require('oppressor');
 
 var server = restify.createServer();
+server.server.setTimeout(99999999);
 server.use(logger('custom', {
     skip: function(req) {
         return process.env.NODE_ENV === "test" || req.method === "OPTIONS" || req.url === "/status";
@@ -16,13 +17,19 @@ var opts = {
     key: process.env.YOUTUBE_API_KEY
 };
 
+var ytdlOpts = {
+    quality: 'highest',
+    highWaterMark: 999999999999,
+    filter: 'audioonly'
+};
+
 server.get('/play/:searchString', function(req, res, next) {
     youtubeSearch(req.params.searchString, opts, function(err, results) {
         if (err) return res.send(err);
         var results = results[0];
         if (results.kind == 'youtube#video') {
             console.log(results);
-            ytdl(results.link).pipe(oppressor(req)).pipe(res);
+            ytdl(results.link, ytdlOpts).pipe(oppressor(req)).pipe(res);
         } else if(results.kind == 'youtube#channel') {
             var channelOpts = {};
             channelOpts.key = opts.key;
@@ -33,7 +40,7 @@ server.get('/play/:searchString', function(req, res, next) {
             youtubeSearch('', channelOpts, function(err, results) {
                 if(err) return res.send(err);
                 console.log(results);
-                ytdl(results[0].link).pipe(oppressor(req)).pipe(res);
+                ytdl(results[0].link, ytdlOpts).pipe(oppressor(req)).pipe(res);
             });
         } else {
             res.send(501, {
@@ -43,9 +50,6 @@ server.get('/play/:searchString', function(req, res, next) {
         }
     });
 });
-
-server.server.setTimeout(Number.MAX_VALUE);
-
 server.listen(9090, function() {
     console.log('%s listening at %s', server.name, server.url);
 });

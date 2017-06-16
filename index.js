@@ -27,7 +27,7 @@ server.get('/play/:searchString', function(req, res, next) {
     delete ytdlOpts.range;
     var range = req.header('Range','0-').split('-');
     if (range.length === 2 && parseInt(range[0]) > 0 && parseInt(range[1]) > 0 ) {
-      ytdlOpts.range{ start:parseInt(range[0]), end:parseInt(range[1]) }
+      ytdlOpts.range = { start:parseInt(range[0]), end:parseInt(range[1]) }
     }
     if (parseInt(range[0]) > 0) {
       ytdlOpts.range{ start:parseInt(range[0]) }

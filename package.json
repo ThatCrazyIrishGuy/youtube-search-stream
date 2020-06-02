@@ -22,6 +22,6 @@
     "restify": "^8.0.0",
     "restify-logger": "^2.0.1",
     "youtube-search": "^1.0.6",
-    "ytdl-core": "0.29.2"
+    "ytdl-core": "3.1.0"
   }
 }
